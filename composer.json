@@ -1,0 +1,34 @@
+{
+	"name": "armenio/armenio-zf2-cakephp-orm-module",
+	"description": "The CakePHP Module for Zend Framework 2",
+	"type": "library",
+	"keywords": [
+		"framework",
+		"orm",
+		"zf2",
+		"cakephp",
+		"module"
+	],
+	"homepage": "https://github.com/armenio/armenio-zf2-cakephp-orm-module",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Rafael Armênio",
+			"email": "rafael.armenio@gmail.com"
+		}
+	],
+	"require": {
+		"cakephp/orm": "3.*",
+		"cakephp/cache": "3.*",
+		"cakephp/log": "3.*",
+		"zendframework/zendframework": "2.*"
+	},
+	"autoload": {
+		"psr-0": {
+			"CakePHP": "src"
+		},
+		"classmap": [
+			"Module.php"
+		]
+	}
+}
