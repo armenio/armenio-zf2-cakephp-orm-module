@@ -7,7 +7,6 @@
 
 namespace CakePHP;
 
-use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
 use CakePHP\Model\Table;
@@ -21,10 +20,6 @@ class Module
 {
 	public function onBootstrap(MvcEvent $e)
 	{
-		/*$eventManager		= $e->getApplication()->getEventManager();
-		$moduleRouteListener = new ModuleRouteListener();
-		$moduleRouteListener->attach($eventManager);*/
-
 		/* 
 		 * pega as configurações
 		 */
@@ -86,11 +81,6 @@ class Module
 	{
 		return include __DIR__ . '/config/module.config.php';
 	}
-
-	/*public function getModuleDependencies()
-	{
-		return array('Base');
-	}*/
 
 	public function getAutoloaderConfig()
 	{
