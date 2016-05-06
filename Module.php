@@ -66,6 +66,10 @@ class Module
 		 * configura o log do CakePHP
 		 */
 		foreach ($config['CakePHP']['Log'] as $configKey => $configValue) {
+			$logDir = sprintf('%s/%s', ROOT_PATH, $configValue['path']);
+			if( ! is_dir($logDir) ){
+				@mkdir($logDir, 0755, true);
+			}
 			Log::config($configKey, $configValue);
 		}
 

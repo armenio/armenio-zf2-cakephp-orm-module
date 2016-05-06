@@ -9,7 +9,7 @@ return array(
 	'CakePHP' => array(
 		'Configure' => array(
 			'App' => array(
-				'namespace' => 'Custom'
+				'namespace' => 'Custom',
 			),
 		),
 		'Cache' => array(
@@ -26,7 +26,7 @@ return array(
 				'className' => 'File',
 				'path' => 'data/cakephp/logs/',
 				'file' => 'queries.log',
-				'scopes' => ['queriesLog']
+				'scopes' => ['queriesLog'],
 			),
 		),
 		'Datasources' => array(
@@ -46,7 +46,7 @@ return array(
 				'log' => false,
 				'quoteIdentifiers' => true,
 				//'init' => array('SET GLOBAL innodb_stats_on_metadata = 0'),
-			)
+			),
 		),
 	),
 	/*
