@@ -21,7 +21,7 @@
 		"cakephp/orm": "3.*",
 		"cakephp/cache": "3.*",
 		"cakephp/log": "3.*",
-		"zendframework/zendframework": "2.*"
+		"zendframework/zendframework": "2.6.*"
 	},
 	"autoload": {
 		"psr-0": {
