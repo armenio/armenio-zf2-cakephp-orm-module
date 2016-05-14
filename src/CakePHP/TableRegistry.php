@@ -5,7 +5,7 @@
  * @link http://github.com/armenio for the source repository
  */
  
-namespace CakePHP\Model;
+namespace CakePHP;
 
 use Cake\ORM\TableRegistry as CakeORMTableRegistry;
 
@@ -21,6 +21,7 @@ class TableRegistry
 {
 	public function get($alias, array $options = array())
 	{
-		return CakeORMTableRegistry::get($alias, $options);
+		$table = CakeORMTableRegistry::get($alias, $options);
+		return $table;
 	}
 }

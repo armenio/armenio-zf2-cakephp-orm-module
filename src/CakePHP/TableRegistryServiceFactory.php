@@ -5,7 +5,7 @@
  * @link http://github.com/armenio for the source repository
  */
  
-namespace CakePHP\Model;
+namespace CakePHP;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
