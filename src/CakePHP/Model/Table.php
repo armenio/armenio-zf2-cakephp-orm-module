@@ -1,4 +1,10 @@
 <?php
+/**
+ * Rafael Armenio <rafael.armenio@gmail.com>
+ *
+ * @link http://github.com/armenio for the source repository
+ */
+ 
 namespace CakePHP\Model;
 
 use Cake\ORM\Table as CakeORMTable;
@@ -10,9 +16,12 @@ use CakePHP\Paginator\Adapter\Cake as CakePaginatorAdapter;
 use DateTime;
 
 /**
- * Table
  *
+ *
+ * Table
  * @author Rafael Armenio <rafael.armenio@gmail.com>
+ *
+ *
  */
 class Table extends CakeORMTable 
 {

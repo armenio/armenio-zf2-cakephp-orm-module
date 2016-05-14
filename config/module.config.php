@@ -49,6 +49,11 @@ return array(
 			),
 		),
 	),
+    'service_manager' => array(
+        'factories' => array(
+            'TableRegistryService' => 'CakePHP\Model\TableRegistryServiceFactory',
+        ),
+    ),
 	/*
 	 * Remover este comentário caso não tenha o zf2 cache configurado em outro módulo
 	 *
