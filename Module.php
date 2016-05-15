@@ -26,16 +26,6 @@ class Module
 		$config = $e->getApplication()->getServiceManager()->get('Config');
 
 		/* 
-		 * cache start
-		 */
-		//Table::$zendCache = $e->getApplication()->getServiceManager()->get('Zend\Cache');
-
-		/* 
-		 * db adapter do zend para validações (Db\RecordExists|Db\NoRecordExists)
-		 */
-		//Table::$zendDbAdapter = $e->getApplication()->getServiceManager()->get('Zend\Db\Adapter');
-
-		/* 
 		 * arruma a configuração do cakePHP
 		 */
 		$config['CakePHP']['Cache']['_cake_model_']['duration']  = $config['caches']['Zend\Cache']['options']['ttl'];
