@@ -29,6 +29,10 @@ class TableRegistryServiceFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $tableRegistry = new TableRegistry();
+        $zendDb = $serviceLocator->get('Zend\Db\Adapter');
+        $tableRegistry->setZendDb($zendDb);
+        $cache = $serviceLocator->get('Zend\Cache');
+        $tableRegistry->setCache($cache);
         return $tableRegistry;
     }
 }

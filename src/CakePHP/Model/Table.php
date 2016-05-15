@@ -8,6 +8,11 @@
 namespace CakePHP\Model;
 
 use Cake\ORM\Table as CakeORMTable;
+
+use Zend\Db\Adapter\AdapterInterface;
+use Zend\Cache\Storage\StorageInterface;
+
+
 use Cake\Datasource\EntityInterface;
 
 use Zend\Paginator\Paginator;
@@ -25,12 +30,34 @@ use DateTime;
  */
 class Table extends CakeORMTable 
 {
-	public static $zendDbAdapter;
-	public static $zendCache;
+	protected $zendDb;
+	protected $cache;
 
 	public $fields = array();
 	public $belongsTo = array();
 	public $hasMany = array();
+
+	public function setZendDb(AdapterInterface $zendDb)
+    {
+        $this->zendDb = $zendDb;
+        return $this;
+    }
+
+    public function getZendDb()
+    {
+        return $this->zendDb;
+    }
+
+    public function setCache(StorageInterface $cache)
+	{
+		$this->cache = $cache;
+		return $this;
+	}
+	
+	public function getCache()
+	{
+		return $this->cache;
+	}
 
 	/**
 	 * saveX
@@ -40,7 +67,7 @@ class Table extends CakeORMTable
 	public function saveX(EntityInterface $entity, $options = array()) 
 	{
 		$cacheTag = sprintf('table_%s', $this->table());
-		self::$zendCache->clearByTags(array($cacheTag));
+		$this->cache->clearByTags(array($cacheTag));
 
 		return parent::save($entity, $options);
 	}
@@ -240,7 +267,7 @@ class Table extends CakeORMTable
 		
 		unset($args);
 
-		$result = self::$zendCache->getItem($cacheIndex, $success);
+		$result = $this->cache->getItem($cacheIndex, $success);
 		
 		if( $success === false ){
 
@@ -275,8 +302,8 @@ class Table extends CakeORMTable
 			unset($modelName);
 			unset($relation);
 
-			self::$zendCache->setItem($cacheIndex, $result);
-			self::$zendCache->setTags($cacheIndex, $cacheTags);
+			$this->cache->setItem($cacheIndex, $result);
+			$this->cache->setTags($cacheIndex, $cacheTags);
 			
 		}
 

@@ -28,12 +28,12 @@ class Module
 		/* 
 		 * cache start
 		 */
-		Table::$zendCache = $e->getApplication()->getServiceManager()->get('Zend\Cache');
+		//Table::$zendCache = $e->getApplication()->getServiceManager()->get('Zend\Cache');
 
 		/* 
 		 * db adapter do zend para validações (Db\RecordExists|Db\NoRecordExists)
 		 */
-		Table::$zendDbAdapter = $e->getApplication()->getServiceManager()->get('Zend\Db\Adapter');
+		//Table::$zendDbAdapter = $e->getApplication()->getServiceManager()->get('Zend\Db\Adapter');
 
 		/* 
 		 * arruma a configuração do cakePHP
