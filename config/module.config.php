@@ -51,7 +51,7 @@ return array(
 	),
     'service_manager' => array(
         'factories' => array(
-            'TableRegistryService' => 'CakePHP\TableRegistryServiceFactory',
+            'CakePHP\TableRegistry' => 'CakePHP\TableRegistryServiceFactory',
         ),
     ),
 	/*

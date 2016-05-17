@@ -7,10 +7,10 @@
  
 namespace CakePHP;
 
-use Cake\ORM\TableRegistry as CakeORMTableRegistry;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-use Zend\Db\Adapter\AdapterInterface;
-use Zend\Cache\Storage\StorageInterface;
+use Cake\ORM\TableRegistry as CakeORMTableRegistry;
 
 /**
  *
@@ -20,37 +20,26 @@ use Zend\Cache\Storage\StorageInterface;
  *
  *
  */
-class TableRegistry
+class TableRegistry implements ServiceLocatorAwareInterface
 {
-	protected $zendDb;
-	protected $cache;
+    protected $serviceLocator;
 
-	public function setZendDb(AdapterInterface $zendDb)
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
-        $this->zendDb = $zendDb;
-        return $this;
+        $this->serviceLocator = $serviceLocator;
     }
 
-    public function getZendDb()
+    public function getServiceLocator()
     {
-        return $this->zendDb;
+        return $this->serviceLocator;
     }
 
-    public function setCache(StorageInterface $cache)
-	{
-		$this->cache = $cache;
-		return $this;
-	}
-	
-	public function getCache()
-	{
-		return $this->cache;
-	}
 	public function get($alias, array $options = array())
 	{
 		$table = CakeORMTableRegistry::get($alias, $options);
-		$table->setZendDb($this->zendDb);
-		$table->setCache($this->cache);
+        if( get_class($table) !== 'Cake\ORM\Table' ){
+    		$table->setServiceLocator($this->getServiceLocator());
+        }
 		return $table;
 	}
 }

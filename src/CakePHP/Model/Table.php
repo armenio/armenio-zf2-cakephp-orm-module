@@ -7,11 +7,15 @@
  
 namespace CakePHP\Model;
 
-use Cake\ORM\Table as CakeORMTable;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
+use CakePHP\TableRegistry;
 
 use Zend\Db\Adapter\AdapterInterface;
 use Zend\Cache\Storage\StorageInterface;
 
+use Cake\ORM\Table as CakeORMTable;
 
 use Cake\Datasource\EntityInterface;
 
@@ -28,16 +32,43 @@ use DateTime;
  *
  *
  */
-class Table extends CakeORMTable 
+class Table extends CakeORMTable implements ServiceLocatorAwareInterface
 {
+	protected $serviceLocator;
+	protected $tableRegistry;
 	protected $zendDb;
-	protected $cache;
+    protected $cache;
 
 	public $fields = array();
 	public $belongsTo = array();
 	public $hasMany = array();
 
-	public function setZendDb(AdapterInterface $zendDb)
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
+    }
+
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
+    }
+
+    public function setTableRegistry(TableRegistry $tableRegistry)
+	{
+		$this->tableRegistry = $tableRegistry;
+		return $this;
+	}
+	
+	public function getTableRegistry()
+	{
+		if( $this->tableRegistry === null ){
+			$this->setTableRegistry($this->getServiceLocator()->get('CakePHP\TableRegistry'));
+		}
+
+		return $this->tableRegistry;
+	}
+
+    public function setZendDb(AdapterInterface $zendDb)
     {
         $this->zendDb = $zendDb;
         return $this;
@@ -45,19 +76,28 @@ class Table extends CakeORMTable
 
     public function getZendDb()
     {
-        return $this->zendDb;
+
+        if( $this->zendDb === null ){
+			$this->setZendDb($this->getServiceLocator()->get('Zend\Db\Adapter'));
+		}
+
+		return $this->zendDb;
     }
 
     public function setCache(StorageInterface $cache)
-	{
-		$this->cache = $cache;
-		return $this;
-	}
-	
-	public function getCache()
-	{
-		return $this->cache;
-	}
+    {
+        $this->cache = $cache;
+        return $this;
+    }
+    
+    public function getCache()
+    {
+        if( $this->cache === null ){
+            $this->setCache($this->getServiceLocator()->get('Zend\Cache'));
+        }
+
+        return $this->cache;
+    }
 
 	/**
 	 * saveX
@@ -67,7 +107,10 @@ class Table extends CakeORMTable
 	public function saveX(EntityInterface $entity, $options = array()) 
 	{
 		$cacheTag = sprintf('table_%s', $this->table());
-		$this->cache->clearByTags(array($cacheTag));
+
+		$cache = $this->getCache();
+		
+		$cache->clearByTags(array($cacheTag));
 
 		return parent::save($entity, $options);
 	}
@@ -267,7 +310,9 @@ class Table extends CakeORMTable
 		
 		unset($args);
 
-		$result = $this->cache->getItem($cacheIndex, $success);
+		$cache = $this->getCache();
+
+		$result = $cache->getItem($cacheIndex, $success);
 		
 		if( $success === false ){
 
@@ -302,8 +347,8 @@ class Table extends CakeORMTable
 			unset($modelName);
 			unset($relation);
 
-			$this->cache->setItem($cacheIndex, $result);
-			$this->cache->setTags($cacheIndex, $cacheTags);
+			$cache->setItem($cacheIndex, $result);
+			$cache->setTags($cacheIndex, $cacheTags);
 			
 		}
 
