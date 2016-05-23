@@ -62,7 +62,7 @@ class Table extends CakeORMTable implements ServiceLocatorAwareInterface
 	public function getTableRegistry()
 	{
 		if( $this->tableRegistry === null ){
-			$this->setTableRegistry($this->getServiceLocator()->get('CakePHP\TableRegistry'));
+			$this->setTableRegistry($this->getServiceLocator()->get('Armenio\CakePHP\TableRegistry'));
 		}
 
 		return $this->tableRegistry;
