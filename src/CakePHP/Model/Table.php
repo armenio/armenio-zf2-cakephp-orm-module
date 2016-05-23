@@ -5,12 +5,12 @@
  * @link http://github.com/armenio for the source repository
  */
  
-namespace CakePHP\Model;
+namespace Armenio\CakePHP\Model;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use CakePHP\TableRegistry;
+use Armenio\CakePHP\TableRegistry;
 
 use Zend\Db\Adapter\AdapterInterface;
 use Zend\Cache\Storage\StorageInterface;
@@ -19,8 +19,8 @@ use Cake\ORM\Table as CakeORMTable;
 
 use Cake\Datasource\EntityInterface;
 
-use Zend\Paginator\Paginator;
-use CakePHP\Paginator\Adapter\Cake as CakePaginatorAdapter;
+use Zend\Paginator\Paginator as ZendPaginator;
+use Armenio\CakePHP\Paginator\Adapter\CakePHP as ArmenioCakePHPPaginatorAdapter;
 
 use DateTime;
 
@@ -366,11 +366,11 @@ class Table extends CakeORMTable implements ServiceLocatorAwareInterface
 
 		try{
 			
-			$pager = new Paginator(new CakePaginatorAdapter($this, $params));
+			$pager = new ZendPaginator(new ArmenioCakePHPPaginatorAdapter($this, $params));
 			$pager->setItemCountPerPage($itemCountPerPage);
 			$pager->setPageRange($pageRange);
 			$pager->setCurrentPageNumber($page);
-		}catch (\Zend\Paginator\Paginator\Exception\RuntimeException $e){
+		}catch (ZendPaginator\Exception\RuntimeException $e){
 			$pager = false;
 		}
 		

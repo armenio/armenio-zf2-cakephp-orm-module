@@ -23,12 +23,9 @@
 		"cakephp/log": "3.*",
 		"zendframework/zendframework": "2.*"
 	},
-	"autoload": {
-		"psr-0": {
-			"CakePHP": "src"
-		},
-		"classmap": [
-			"Module.php"
-		]
-	}
+    "autoload": {
+        "psr-4": {
+            "Armenio\\CakePHP\\": "src/"
+        }
+    }
 }
