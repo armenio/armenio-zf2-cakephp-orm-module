@@ -122,8 +122,6 @@ class Table extends CakeORMTable implements ServiceLocatorAwareInterface
 	 */
 	public function insertX(array $data)
 	{
-		//$dateFormat = new HelperDate();
-		//$now = $dateFormat->formatDbDateTime();
 		$dateTime = new DateTime();
 		$now = $dateTime->format('Y-m-d H:i:s');
 
@@ -155,8 +153,6 @@ class Table extends CakeORMTable implements ServiceLocatorAwareInterface
 	 */
 	public function updateX(array $data)
 	{
-		//$dateFormat = new HelperDate();
-		//$now = $dateFormat->formatDbDateTime();
 		$dateTime = new DateTime();
 		$now = $dateTime->format('Y-m-d H:i:s');
 
@@ -193,8 +189,6 @@ class Table extends CakeORMTable implements ServiceLocatorAwareInterface
 	 */
 	public function deleteX($id, array $data = array()) 
 	{
-		//$dateFormat = new HelperDate();
-		//$now = $dateFormat->formatDbDateTime();
 		$dateTime = new DateTime();
 		$now = $dateTime->format('Y-m-d H:i:s');
 		
@@ -217,18 +211,16 @@ class Table extends CakeORMTable implements ServiceLocatorAwareInterface
 	 *
 	 * @author Rafael Armenio <rafael.armenio@gmail.com>
 	 */
-	protected function _formatResult($result){
+	protected function _formatResult($result)
+	{
 		if( $result instanceof \Cake\Database\Query ){
 			$result = $result->toArray();
 		}elseif( $result instanceof \Cake\ORM\Entity ){
 			return $result->toArray();
-		}else{
-			return $result;
 		}
 
 		if( ! empty($result) ){
 			foreach ( $result as $key => $row ) {
-				
 				$result[$key] = $this->_formatResult($row);
 			}
 		}
@@ -241,7 +233,7 @@ class Table extends CakeORMTable implements ServiceLocatorAwareInterface
 	 *
 	 * @author Rafael Armenio <rafael.armenio@gmail.com>
 	 */
-	public function find($type = 'all', $options = []) 
+	public function find($type = 'all', $options = array()) 
 	{
 		$result = false;
 		
@@ -301,14 +293,7 @@ class Table extends CakeORMTable implements ServiceLocatorAwareInterface
 			$options['limit'] = 1;
 		}*/
 		
-		$args = array();
-		$args[] = array('model' => $this->alias());
-		$args[] = array('type' => $type);
-		$args[] = array('options' => $options);
-
-		$cacheIndex = sprintf('find_%s', md5(serialize($args)));
-		
-		unset($args);
+		$cacheIndex = md5(serialize(array(__METHOD__, $this->alias(), func_get_args())));
 
 		$cache = $this->getCache();
 
@@ -323,28 +308,13 @@ class Table extends CakeORMTable implements ServiceLocatorAwareInterface
 
 			$cacheTag = sprintf('table_%s', $this->table());
 			$cacheTags[$cacheTag] = $cacheTag;
-			
-			if( class_exists('\Custom\Configure\Model') ){
-				if( ! empty($this->belongsTo) ){
-					foreach($this->belongsTo as $modelName => $relation){
-						if( ! empty(\Custom\Configure\Model::$tables[$modelName]) ){
-							$cacheTag = sprintf('table_%s', \Custom\Configure\Model::$tables[$modelName]);
-							$cacheTags[$cacheTag] = $cacheTag;
-						}
-					}
-				}
 
-				if( ! empty($this->hasMany) ){
-					foreach($this->hasMany as $modelName => $relation){
-						if( ! empty(\Custom\Configure\Model::$tables[$modelName]) ){
-							$cacheTag = sprintf('table_%s', \Custom\Configure\Model::$tables[$modelName]);
-							$cacheTags[$cacheTag] = $cacheTag;
-						}
-					}
-				}
+			$associations = $this->associations();
+			foreach ($associations as $relation) {
+				$cacheTag = sprintf('table_%s', $relation->table());
+				$cacheTags[$cacheTag] = $cacheTag;
+				
 			}
-
-			unset($modelName);
 			unset($relation);
 
 			$cache->setItem($cacheIndex, $result);
