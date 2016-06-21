@@ -305,8 +305,8 @@ class Table extends CakeORMTable implements ServiceLocatorAwareInterface
 			if( class_exists('\Custom\Configure\Model') ){
 				if( ! empty($this->belongsTo) ){
 					foreach($this->belongsTo as $modelName => $relation){
-						if( ! empty(\Custom\Configure\Model::$tables[$modelName]) ){
-							$cacheTag = sprintf('table_%s', \Custom\Configure\Model::$tables[$modelName]);
+						if( ! empty(\Custom\Configure\Model::$config[$modelName]['table']) ){
+							$cacheTag = sprintf('table_%s', \Custom\Configure\Model::$config[$modelName]['table']);
 							$cacheTags[$cacheTag] = $cacheTag;
 						}
 					}
@@ -314,8 +314,8 @@ class Table extends CakeORMTable implements ServiceLocatorAwareInterface
 
 				if( ! empty($this->hasMany) ){
 					foreach($this->hasMany as $modelName => $relation){
-						if( ! empty(\Custom\Configure\Model::$tables[$modelName]) ){
-							$cacheTag = sprintf('table_%s', \Custom\Configure\Model::$tables[$modelName]);
+						if( ! empty(\Custom\Configure\Model::$config[$modelName]['table']) ){
+							$cacheTag = sprintf('table_%s', \Custom\Configure\Model::$config[$modelName]['table']);
 							$cacheTags[$cacheTag] = $cacheTag;
 						}
 					}

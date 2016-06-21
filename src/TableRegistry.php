@@ -34,7 +34,7 @@ class TableRegistry implements ServiceLocatorAwareInterface
         return $this->serviceLocator;
     }
 
-	public function get($alias, array $options = array())
+	public function get($alias, array $options = [])
 	{
 		$table = CakeORMTableRegistry::get($alias, $options);
         if( get_class($table) !== 'Cake\ORM\Table' ){
